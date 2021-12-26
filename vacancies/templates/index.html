@@ -29,13 +29,13 @@
       <h2 class="h2 font-weight-normal text-center mb-5">Вакансии по рубрикам</h2>
       <div class="row mb-0">
       
-        {% for specialty in all_specialty %}
+        {% for specialty in specialty_vacancies %}
           <div class="col-6 col-md-6 col-lg-3">
             <div class="card pt-4 text-center mb-4">
               <img class="mx-auto d-block" src="{{ specialty.picture }}" width="80" height="80" alt="">
               <div class="card-body">
                 <p class="card-text mb-2">{{ specialty.title }}</p>
-                <p class="card-text"><a href="vacancies/cat/{{ specialty.code }}">{{ specialty_vacancies.specialty.code }} вакансий</a></p>
+                <p class="card-text"><a href="vacancies/cat/{{ specialty.code }}">{{ specialty.vacancies_count }} вакансий</a></p>
               </div>
             </div>
           </div>
@@ -46,16 +46,14 @@
     <section class="my-5 pt-3">
       <h2 class="h2 font-weight-normal text-center mb-5">Нам доверяют лучшие компании</h2>
       <div class="row mb-0">
-        {% for company in all_companies %}
+        {% for company in company_vacancies %}
         <div class="col-6 col-md-6 col-lg-3">
           <div class="card pt-4 text-center mb-4">
             <a href="/vacancies/companies/{{ company.company_original_id }}" style="max-width: 150px;" class="mx-auto d-block">
               <img class="mx-auto d-block mw-100" src="{{ company.logo }}" alt="{{ company.name }}">
             </a>
             <div class="card-body">
-              <p class="card-text"><a href="/vacancies/companies/{{ company.company_original_id }}">{{ company_vacancies.company }} вакансий</a></p>
-            <span>foo{{ company_vacancies.company.name }}</span>
-            <span>{{ company.name }}</span>
+              <p class="card-text"><a href="/vacancies/companies/{{ company.company_original_id }}">{{ company.vacancies_count }} вакансий</a></p>
             </div>
           </div>
         </div>

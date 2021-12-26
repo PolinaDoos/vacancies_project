@@ -1,6 +1,7 @@
 from django.http.response import HttpResponseNotFound, HttpResponseServerError
 from django.shortcuts import redirect, render
 from vacancies.models import Company, Specialty, Vacancy
+from django.db.models import Count
 
 
 def custom_handler404(request, exception):
@@ -12,28 +13,19 @@ def custom_handler500(request):
 
 
 def main_view(request):
-    specialty_vacancies = {}
-    for i in Specialty.objects.all():
-        specialty_vacancies[i.code] = len(Vacancy.objects.filter(specialty=i.id))
-
-    company_vacancies = {}
-    for i in Company.objects.all():
-        company_vacancies[i.name] = len(Vacancy.objects.filter(company=i.id))
-
+    company_vacancies = Company.objects.annotate(vacancies_count=Count('companies'))
+    specialty_vacancies = Specialty.objects.annotate(vacancies_count=Count('vacancies'))
     context = {
-        'all_companies': Company.objects.all(),
         'specialty_vacancies': specialty_vacancies,
         'company_vacancies': company_vacancies,
-        'all_specialty': Specialty.objects.all()
     }
     return render(request, 'index.html', context)
 
 
 def vacancies(request):
-    all_vacancies = Vacancy.objects.all()
     context = {
-        'all_vacancies': all_vacancies,
-        'number_of_vacancies': len(all_vacancies)
+        'all_vacancies': Vacancy.objects.all(),
+        'number_of_vacancies': len(Vacancy.objects.all())
     }
     return render(request, 'vacancies.html', context)
 
