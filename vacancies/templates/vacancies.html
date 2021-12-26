@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block container %}
+  <main class="container mt-3">
+    <section>
+      <!-- <h1 class="h1 text-center mx-auto mt-4 pt-5" style="font-size: 70px;"><strong>Бэкенд</strong></h1> -->
+      <p class="text-center pt-1">{{ number_of_vacancies }} вакансий</p>
+      <div class="row mt-5">
+        <div class="col-12 col-lg-8 offset-lg-2 m-auto">
+          {% for vacancy in all_vacancies %}
+            {% include 'vacancy_summary.html' %}
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

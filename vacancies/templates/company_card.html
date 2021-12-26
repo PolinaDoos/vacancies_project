@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block container %}
+
+  
+    <section>
+      <div class="text-center">
+        <img src="{{ company_data.logo }}" width="130" height="80" alt="">
+      </div>
+      <h1 class="h1 text-center mx-auto mt-0 pt-1" style="font-size: 70px; text-transform: capitalize;"><strong >{{ company_data.name }}</strong></h1>
+      <p class="text-center pt-1">{{ company_data.description }}, <br> {{ company_data.location }}, {{ number_of_vacancies }} вакансий</p>
+      <div class="row mt-5">
+        <div class="col-12 col-lg-8 offset-lg-2 m-auto">
+
+          {% for vacancy in vacancies_data %}
+            {% include 'vacancy_summary.html' %} 
+          {% endfor %}
+
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}
