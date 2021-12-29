@@ -4,12 +4,14 @@ from vacancies.models import Company, Specialty, Vacancy
 from django.db.models import Count
 
 
+
 def custom_handler404(request, exception):
     return HttpResponseNotFound('Ой, что то сломалось... Или ничего нет. Простите, извините!')
 
 
 def custom_handler500(request):
     return HttpResponseServerError('Сервер не отвечает именно Вам')
+
 
 
 def main_view(request):
@@ -63,8 +65,11 @@ def company_card(request, company):
 def vacancy(request, vacancy):
     try:
         vacancy_data = Vacancy.objects.get(id=vacancy)
+        print(vacancy_data.skills.split(", "))
+        skills = vacancy_data.skills.split(", ")
         context = {
             'vacancy_data': vacancy_data,
+            'skills': skills,
         }
         return render(request, 'vacancy_card.html', context)
     except Vacancy.DoesNotExist:

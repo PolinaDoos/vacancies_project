@@ -34,7 +34,7 @@
             <div class="card pt-4 text-center mb-4">
               <img class="mx-auto d-block" src="{{ specialty.picture }}" width="80" height="80" alt="">
               <div class="card-body">
-                <p class="card-text mb-2">{{ specialty.title }}</p>
+                <p class="card-text mb-2"><a href="{% url 'vacancies_on_category' specialty.code %}">{{ specialty.title }}</p></a>
                 <p class="card-text"><a href="vacancies/cat/{{ specialty.code }}">{{ specialty.vacancies_count }} вакансий</a></p>
               </div>
             </div>
