@@ -12,9 +12,8 @@ import mok_data
 for i in mok_data.specialties:
     Specialty.objects.create(code=i.get('code'), title=i.get('title')).save()
 
-for i in mok_data.companies:
-    # Company.objects.filter(name=i.get('title')).update(company_original_id = i.get('id'))
 
+for i in mok_data.companies:
     logo_file_path = f"/static/{i.get('logo')}"
     Company.objects.create(
         name = i.get('title'),

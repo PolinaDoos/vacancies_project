@@ -4,14 +4,12 @@ from vacancies.models import Company, Specialty, Vacancy
 from django.db.models import Count
 
 
-
 def custom_handler404(request, exception):
     return HttpResponseNotFound('Ой, что то сломалось... Или ничего нет. Простите, извините!')
 
 
 def custom_handler500(request):
     return HttpResponseServerError('Сервер не отвечает именно Вам')
-
 
 
 def main_view(request):
