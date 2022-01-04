@@ -15,9 +15,9 @@
             • {{ skill }}
             {% endfor %}
             </p>
-          <p class="text-muted mb-4">{{ vacancy_data.company.name }}: ({{ vacancy_data.company.employee_count }} человек(а)), {{ vacancy_data.company.location }} или удаленно</p>
-          <div style="line-height: 1.8;">
-            {{ vacancy_data.company.description }}
+          <p class="text-muted mb-4">{{ vacancy_data.company.name }}: {{ vacancy_data.company.description }}
+          <br>({{ vacancy_data.company.employee_count }} человек(а)), {{ vacancy_data.company.location }} или удаленно</p>
+          <div style="line-height: 1.8;">            
             {{ vacancy_data.description|safe }}
           </div>
           <form action="/echo" class="card mt-4 mb-3" enctype="multipart/form-data">

@@ -2,6 +2,7 @@
 {% block container %}
 <form method="post" action="login">{% csrf_token %}
     <table>{{ form.as_table }}</table>
-    <button type="submit">Login</button>
+    <button type="submit">Войти</button>
 </form>
+<div>Не аккаунта? <a href="/signup">Зарегистрируйтейсь!</a></div>
 {% endblock %}
