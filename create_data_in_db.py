@@ -19,7 +19,7 @@ for i in mok_data.companies:
         name = i.get('title'),
         location = i.get('location'),
         logo = logo_file_path,
-        company_original_id = i.get('id'),
+        # company_original_id = i.get('id'),
         description = i.get('description'),
         employee_count = i.get('employee_count'),      
         ).save()
@@ -27,7 +27,9 @@ for i in mok_data.companies:
 
 for i in mok_data.jobs:
     specialty = Specialty.objects.get(code=i.get('specialty'))
-    company = Company.objects.get(company_original_id=i.get('company'))
+    # company = Company.objects.get(company_original_id=i.get('company'))
+    company = Company.objects.get(id=i.get('company'))
+
     Vacancy.objects.create(
         title = i.get('title'),
         specialty = specialty,

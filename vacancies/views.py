@@ -47,9 +47,8 @@ def vacancies_on_category(request, category_name):
 def company_card(request, company):
     try:
         # if Company.objects.all().values_list('company_original_id') and company in Company.objects.all().values_list('company_original_id', flat=True):
-        company_data = Company.objects.get(company_original_id=company)
+        company_data = Company.objects.get(id=company)
         vacancies_data = Vacancy.objects.filter(company=company_data.id)
-        print(vacancies_data)
         context = {
             'company_data': company_data,
             'vacancies_data': vacancies_data,
@@ -63,7 +62,6 @@ def company_card(request, company):
 def vacancy(request, vacancy):
     try:
         vacancy_data = Vacancy.objects.get(id=vacancy)
-        print(vacancy_data.skills.split(", "))
         skills = vacancy_data.skills.split(", ")
         context = {
             'vacancy_data': vacancy_data,

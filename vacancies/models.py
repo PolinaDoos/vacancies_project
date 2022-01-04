@@ -20,7 +20,6 @@ class Vacancy(models.Model):
 
 class Company (models.Model):
     name = CharField(max_length=200)
-    company_original_id = IntegerField(null=True)
     location = CharField(max_length=200)
     logo = URLField(default='https://place-hold.it/100x60')
     description = TextField()
