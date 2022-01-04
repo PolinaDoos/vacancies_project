@@ -1,7 +1,10 @@
 from django.db import models
 from django.db.models.deletion import CASCADE, SET
-from django.db.models.fields import CharField, DateField, IntegerField, TextField, URLField
+from django.db.models.fields import CharField, DateField, IntegerField, TextField
 from django.db.models.fields.related import ForeignKey, OneToOneField
+from django.contrib.auth.models import User
+
+from conf.settings import MEDIA_COMPANY_IMAGE_DIR, MEDIA_SPECIALITY_IMAGE_DIR
 
 
 class Vacancy(models.Model):
@@ -21,7 +24,9 @@ class Vacancy(models.Model):
 class Company(models.Model):
     name = CharField(max_length=200)
     location = CharField(max_length=200)
-    logo = URLField(default='https://place-hold.it/100x60')
+    logo = models.ImageField(upload_to=MEDIA_COMPANY_IMAGE_DIR, height_field='height_field', width_field='width_field')
+    height_field = models.PositiveIntegerField(default=60)
+    width_field = models.PositiveIntegerField(default=100)
     description = TextField()
     employee_count = IntegerField()
     owner = OneToOneField('auth.User', on_delete=CASCADE, related_name='company', blank=True, null=True)
@@ -33,7 +38,9 @@ class Company(models.Model):
 class Specialty(models.Model):
     code = CharField(max_length=200)
     title = CharField(max_length=200)
-    picture = URLField(default='https://place-hold.it/100x60')
+    picture = models.ImageField(upload_to=MEDIA_SPECIALITY_IMAGE_DIR, height_field='height_field', width_field='width_field')
+    height_field = models.PositiveIntegerField(default=80)
+    width_field = models.PositiveIntegerField(default=80)
 
     def __str__(self):
         return self.title
