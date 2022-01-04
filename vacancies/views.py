@@ -22,7 +22,7 @@ def main_view(request):
     context = {
         'specialty_vacancies': specialty_vacancies,
         'company_vacancies': company_vacancies,
-        'username': request.user.username,
+        'user': request.user,
     }
     return render(request, 'index.html', context)
 

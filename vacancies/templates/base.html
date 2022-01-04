@@ -23,8 +23,8 @@
         </ul>
         <ul class="navbar-nav col-2 justify-content-end">
           <li class="nav-item active">
-            {% if username %}
-              <a href="#" class="nav-link font-weight-bold">{{ username }}</a>
+            {% if user.username %}
+              <a href="#" class="nav-link font-weight-bold">{{ user.username }}</a>
             {% else %}
               <a href="/login" class="nav-link font-weight-bold">Вход</a>
             {% endif %}
