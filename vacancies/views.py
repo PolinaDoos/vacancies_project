@@ -3,6 +3,10 @@ from django.shortcuts import redirect, render
 from vacancies.models import Company, Specialty, Vacancy
 from django.db.models import Count
 
+from django.contrib.auth.forms import UserCreationForm
+from django.views.generic import CreateView
+from django.contrib.auth.views import LoginView
+
 
 def custom_handler404(request, exception):
     return HttpResponseNotFound('Ой, что то сломалось... Или ничего нет. Простите, извините!')
@@ -70,3 +74,14 @@ def vacancy(request, vacancy):
         return render(request, 'vacancy_card.html', context)
     except Vacancy.DoesNotExist:
         return redirect(main_view)
+
+
+class MySignupView(CreateView):
+   form_class = UserCreationForm
+   success_url = 'login'
+   template_name = 'signup.html'
+
+
+class MyLoginView(LoginView):
+    redirect_authenticated_user = True
+    template_name = 'login.html'
