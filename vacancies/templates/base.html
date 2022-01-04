@@ -18,7 +18,7 @@
       <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
         <ul class="navbar-nav col-10">
           <li class="nav-item">
-            <a class="nav-link" href="/vacancies">Вакансии</a>
+            <a class="nav-link" href="{% url 'vacancies' %}">Вакансии</a>
           </li>
         </ul>
         <ul class="navbar-nav col-2 justify-content-end">
@@ -32,7 +32,6 @@
   <main class="container mt-3">
     <div class="navbar mt-2">
       <p><a href="javascript:history.go(-1)">Назад</a></p>
-      <!-- <p><a href="{{ previous_page }}">Назад</a></p> -->
     </div>
 
   {% block container %}{% endblock %}

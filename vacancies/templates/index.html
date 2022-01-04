@@ -35,7 +35,7 @@
               <img class="mx-auto d-block" src="{{ specialty.picture }}" width="80" height="80" alt="">
               <div class="card-body">
                 <p class="card-text mb-2"><a href="{% url 'vacancies_on_category' specialty.code %}">{{ specialty.title }}</p></a>
-                <p class="card-text"><a href="vacancies/cat/{{ specialty.code }}">{{ specialty.vacancies_count }} вакансий</a></p>
+                <p class="card-text"><a href="{% url 'vacancies_on_category' specialty.code %}">{{ specialty.vacancies_count }} вакансий</a></p>
               </div>
             </div>
           </div>
@@ -49,11 +49,11 @@
         {% for company in company_vacancies %}
         <div class="col-6 col-md-6 col-lg-3">
           <div class="card pt-4 text-center mb-4">
-            <a href="/vacancies/companies/{{ company.company_original_id }}" style="max-width: 150px;" class="mx-auto d-block">
+            <a href="{% url 'company_card' company.company_original_id %}" style="max-width: 150px;" class="mx-auto d-block">
               <img class="mx-auto d-block mw-100" src="{{ company.logo }}" alt="{{ company.name }}">
             </a>
             <div class="card-body">
-              <p class="card-text"><a href="/vacancies/companies/{{ company.company_original_id }}">{{ company.vacancies_count }} вакансий</a></p>
+              <p class="card-text"><a href="{% url 'company_card' company.company_original_id %}">{{ company.vacancies_count }} вакансий</a></p>
             </div>
           </div>
         </div>

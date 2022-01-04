@@ -24,7 +24,7 @@ handler500 = vacancies.custom_handler500
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', vacancies.main_view),
-    path('vacancies', vacancies.vacancies),
+    path('vacancies', vacancies.vacancies, name='vacancies'),
     path('vacancies/cat/<str:category_name>', vacancies.vacancies_on_category, name='vacancies_on_category'),
     path('vacancies/companies/<int:company>', vacancies.company_card, name='company_card'),
     path('vacancies/<int:vacancy>', vacancies.vacancy, name='vacancy'),
