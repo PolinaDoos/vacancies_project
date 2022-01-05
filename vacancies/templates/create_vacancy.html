@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block container %}
+
+<section class="my-2 pt-3">
+    <h2 class="h2 font-weight-normal text-center mb-5">Создание вакансии от компании {{ company }}</h2>
+    <form method="post" enctype="multipart/form-data" style="width: 50%; ">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit" class="btn btn-primary mb-2">Создать карточку компании</button>
+
+
+        <!-- <div class="form-group">
+            <label>Название вакансии</label>
+            <input type="text" placeholder="Полет шмеля" name="title" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Специализация</label>
+            <input type="text" placeholder="Бэкэнд" name="specialty" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Требования</label>
+            <textarea type="text" name="skills" placeholder="Python, Django, ..." class="form-control" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Минимальная з\п</label>
+            <input type="text" placeholder="50000" name="salary_min" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Максимальная з\п</label>
+            <input type="text" placeholder="300000" name="salary_max" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Описание</label>
+            <textarea type="text" name="description" placeholder="Подробнее о вакансии" class="form-control" rows="3"></textarea>
+            <br>{{ form.errors }}
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Опубликовать вакансию</button> -->
+        
+
+    </form>
+</section>
+
+{% endblock %}

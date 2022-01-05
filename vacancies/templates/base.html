@@ -16,7 +16,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-        <ul class="navbar-nav col-10">
+        <ul class="navbar-nav col-2">
           <li class="nav-item">
             <a class="nav-link" href="{% url 'vacancies' %}">Вакансии</a>
           </li>
@@ -30,6 +30,16 @@
             {% endif %}
           </li>
         </ul>
+        <ul class="navbar-nav col-2 justify-content-end">
+          <li class="nav-item active">
+            <a href="{% url 'create_company'%}" class="nav-link font-weight-bold">Создать компанию</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav col-2 justify-content-end">
+          <li class="nav-item active">
+            <a href="{% url 'create_vacancy'%}" class="nav-link font-weight-bold">Создать вакансию</a>
+          </li>
+        </ul>
       </div>
     </nav>
   </header>
@@ -37,6 +47,17 @@
     <div class="navbar mt-2">
       <p><a href="javascript:history.go(-1)">Назад</a></p>
     </div>
+
+    {% for message in messages %}
+    <div class="container-fluid p-0">
+      <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="True">&times;</span>
+        </button>
+        {{ message }}
+      </div>
+    </div>
+    {% endfor %}
 
   {% block container %}{% endblock %}
   

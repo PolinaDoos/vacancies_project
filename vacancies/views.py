@@ -1,11 +1,15 @@
+from django.contrib import messages
 from django.http.response import HttpResponseNotFound, HttpResponseServerError
 from django.shortcuts import redirect, render
 from vacancies.models import Company, Specialty, Vacancy
 from django.db.models import Count
+from datetime import datetime
 
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView
 from django.contrib.auth.views import LoginView
+
+from .forms import CompanyForm, VacancyForm
 
 
 def custom_handler404(request, exception):
@@ -75,6 +79,58 @@ def vacancy(request, vacancy):
         return render(request, 'vacancy_card.html', context)
     except Vacancy.DoesNotExist:
         return redirect(main_view)
+
+
+def vacancy_send(request, vacancy):
+    pass
+
+
+def start_compamy(request):
+    messages.Info(request, 'успех')
+    return render(request, 'start_company.html')
+
+
+# @login_required
+def create_compamy(request):
+    form = CompanyForm()
+    if request.method == "POST":
+        form= CompanyForm(request.POST)
+        messages.info(request, f'{request.user.username}, данные с формы получены')
+        print(request.user.username)
+        if form.is_valid():
+            messages.info(request, 'форма валидна')
+            Company.objects.create(owner=request.user, **form.cleaned_data)
+            messages.success(request, 'успех')
+            return redirect(main_view)
+        else:
+            messages.error(request, 'Ошибка в заполнении формы')
+        
+    context = {
+        'form': form,
+    }
+    return render(request, 'create_company.html', context)
+
+
+def create_vacancy(request):
+    form = VacancyForm()
+    company = Company.objects.get(owner=request.user)
+    published_at = datetime.today()
+    if request.method == "POST":
+        form= VacancyForm(request.POST)
+        if form.is_valid():
+            Vacancy.objects.create(company=company, published_at=published_at, **form.cleaned_data)
+            messages.success(request, 'успех')
+            return redirect(main_view)
+        else:
+            messages.error(request, 'Ошибка в заполнении формы')
+        
+    context = {
+        'form': form,
+        'company': company,
+    }
+    return render(request, 'create_vacancy.html', context)
+
+
 
 
 class MySignupView(CreateView):

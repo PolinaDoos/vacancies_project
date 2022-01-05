@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block container %}
+
+<section class="my-2 pt-3">
+    <h2 class="h2 font-weight-normal text-center mb-5">Создание карточки компании:</h2>
+    <form method="post" enctype="multipart/form-data" style="width: 50%; ">
+        {% csrf_token %}
+        <!-- {{ form }}
+        <button type="submit" class="btn btn-primary mb-2">Создать карточку компании</button> -->
+
+        <span><br>****************</span>
+        <div class="form-group">
+            <label>Название компании</label>
+            <input type="text" placeholder="Полет шмеля" name="name" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Логотип компании</label>
+            <input type="file" name="logo" class="form-control-file">
+        </div>
+        <div class="form-group">
+            <label>Расположение</label>
+            <input type="text" placeholder="Москва" name="location" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Количество сотрудников</label>
+            <input type="text" placeholder="13" name="employee_count" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Информация о компании</label>
+            <textarea type="text" name="description" placeholder="Расскажите подробнее о вашей компании" class="form-control" rows="3"></textarea>
+            <br>{{ form.errors }}
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Создать карточку компании</button>
+        
+
+    </form>
+
+    
+</section>
+
+{% endblock %}
