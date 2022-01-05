@@ -4,6 +4,7 @@ from django.shortcuts import redirect, render
 from vacancies.models import Company, Specialty, Vacancy
 from django.db.models import Count
 from datetime import datetime
+from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView
@@ -85,13 +86,14 @@ def vacancy_send(request, vacancy):
     pass
 
 
-def start_compamy(request):
-    messages.Info(request, 'успех')
-    return render(request, 'start_company.html')
+@login_required
+def start_company(request):
+    messages.info(request, 'успех')
+    return redirect(main_view)
 
 
-# @login_required
-def create_compamy(request):
+@login_required
+def create_company(request):
     form = CompanyForm()
     if request.method == "POST":
         form= CompanyForm(request.POST)
@@ -111,6 +113,7 @@ def create_compamy(request):
     return render(request, 'create_company.html', context)
 
 
+@login_required
 def create_vacancy(request):
     form = VacancyForm()
     company = Company.objects.get(owner=request.user)
@@ -129,8 +132,6 @@ def create_vacancy(request):
         'company': company,
     }
     return render(request, 'create_vacancy.html', context)
-
-
 
 
 class MySignupView(CreateView):
