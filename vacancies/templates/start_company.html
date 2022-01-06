@@ -4,12 +4,13 @@
 <section class="my-5 pt-3">
     <h2 class="h2 font-weight-normal text-center mb-5">Моя компания</h2>
         <div class="row justify-content-center mb-0">
-            <div class="col-6">          
-                Пока вы не зарегистрировали ни одной компании. Хотите создать карточку комании, чтобы размещать вакансии и просматривать отклики?
-            </div>
+            <h5 class="col-6 text-center">          
+                Пока вы не зарегистрировали компанию.<br>
+                Хотите создать карточку комании, чтобы размещать вакансии и просматривать отклики?
+            </h5>
         </div>
     <div class="row justify-content-center mt-5">
-        <button type="button" class="btn btn-primary">Создать карточку команию</button>
+        <a class="btn btn-primary" href="{% url 'create_company' %}" role="button">Создать карточку компании</a>
     </div>
 </section>
 

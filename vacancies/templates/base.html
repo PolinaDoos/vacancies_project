@@ -37,8 +37,11 @@
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="#">Профиль</a>
                 <a class="dropdown-item" href="#">Резюме</a>
-                <a class="dropdown-item" href="#">Комания</a>
-                <a class="dropdown-item" href="{% url 'create_company'%}">Создать компанию</a>
+                {% if user.company %}
+                  <a class="dropdown-item" href="{% url 'mycompany' %}">Комания</a>
+                {% else %}
+                  <a class="dropdown-item" href="{% url 'start_company' %}">Комания</a>
+                {% endif %} 
                 <a class="dropdown-item" href="{% url 'create_vacancy'%}">Создать вакансию</a>
                 <a class="dropdown-item" href="/logout">Выйти</a>
               </div>
@@ -54,17 +57,8 @@
     <div class="navbar mt-2">
       <p><a href="javascript:history.go(-1)">Назад</a></p>
     </div>
-
-    {% for message in messages %}
-    <div class="container-fluid p-0">
-      <div class="alert {{ message.tags }} alert-dismissible" role="alert" >
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="True">&times;</span>
-        </button>
-        {{ message }}
-      </div>
-    </div>
-    {% endfor %}
+    
+    {% include 'alert.html' %}
 
   {% block container %}{% endblock %}
   

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block container %}
+<main>
+    <section class="my-2 pt-3">
+        <div class="row">
+            {% include 'menu_mycompany.html' %}
+            <div class="col-6 ml-5">
+                <h2 class="h2 font-weight-normal text-center mb-5">Инфомрация о компании</h2>
+                {% include 'alert.html' %}
+                <a href="{% url 'create_vacancy' %}" class="btn btn-warning btn-block mb-3">Добавить вакансию</a>
+                {% for vacancy in user_vacancy_list %}
+                    <div class="card mb-4">
+                        <div class="card-body px-4">
+                            <div class="row">
+                                <a href="#">
+                                    <div class="col-md-8 col-lg-9">
+                                        <h5 class="pb-2">{{ vacancy.title }}</h5>
+                                </a>
+                                <p>Зарплата от {{ vacancy.salary_min }} до {{ vacancy.salary_max }} руб.</p>
+
+                                <p class="text-muted pt-1">Опубликовано {{ vacancy.published_at }}</p>
+                            </div>
+                            <div class="col-md-4 col-lg-3 d-flex align-items-end">
+                                <a href="#" class="btn btn-outline-info">Изменить</a>
+                            </div>
+
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

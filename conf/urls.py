@@ -39,9 +39,11 @@ urlpatterns = [
     path('login', MyLoginView.as_view()),
     path('logout', LogoutView.as_view()),
     path('signup', MySignupView.as_view()),
-    path('mycompany/start_company', vacancies.start_company),
+    path('mycompany/start_company', vacancies.start_company, name='start_company'),
     path('mycompany/create_company', vacancies.create_company, name='create_company'),
+    path('mycompany', vacancies.mycompany, name='mycompany'),
     path('mycompany/create_vacancy', vacancies.create_vacancy, name='create_vacancy'),
+    path('mycompany/vacancies', vacancies.my_vacancies, name='my_vacancies'),
 ]
 
 

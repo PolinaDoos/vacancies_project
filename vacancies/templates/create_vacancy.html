@@ -2,7 +2,7 @@
 {% block container %}
 
 <section class="my-2 pt-3">
-    <h2 class="h2 font-weight-normal text-center mb-5">Создание вакансии от компании {{ company }}</h2>
+    <h2 class="h2 font-weight-normal text-center mb-5">Создание вакансии от компании {{ user.company }}</h2>
     <form method="post" enctype="multipart/form-data" style="width: 50%; ">
         {% csrf_token %}
         <!-- {{ form }} -->

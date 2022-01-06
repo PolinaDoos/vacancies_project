@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.http.response import HttpResponseNotFound, HttpResponseServerError
 from django.shortcuts import redirect, render
-from vacancies.models import Company, Specialty, Vacancy
+from vacancies.models import Application, Company, Specialty, Vacancy
 from django.db.models import Count
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
@@ -96,8 +96,7 @@ def vacancy_send(request, vacancy):
 
 @login_required
 def start_company(request):
-    messages.info(request, 'успех')
-    return redirect(main_view)
+    return render(request, 'start_company.html')
 
 
 @login_required
@@ -119,6 +118,30 @@ def create_company(request):
         'form': form,
     }
     return render(request, 'create_company.html', context)
+
+# для работы с запросами в shell: 
+# import django.contrib.auth.models as auth - auth.User.objects.all()
+# import vacancies.models as models -> models.Company.objects.all()
+
+@login_required
+def mycompany(request):
+    messages.info(request, 'а вот и алерт')
+    return render(request, 'mycompany.html')
+
+
+@login_required
+def my_vacancies(request):
+    # applications_count = Application.objects.filter(vacancy=...)count()
+
+    try:
+        user_vacancy_list = Vacancy.objects.filter(company=request.user.company)
+        context = {
+            'user_vacancy_list': user_vacancy_list,
+        }
+        return render(request, 'my_vacancies.html', context)
+    except Vacancy.DoesNotExist:
+        return redirect(main_view)
+    
 
 
 @login_required
