@@ -20,25 +20,32 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'vacancies' %}">Вакансии</a>
           </li>
-        </ul>
-        <ul class="navbar-nav col-2 justify-content-end">
-          <li class="nav-item active">
-            {% if user.username %}
-              <a href="#" class="nav-link font-weight-bold">{{ user.username }}</a>
-            {% else %}
-              <a href="/login" class="nav-link font-weight-bold">Вход</a>
-            {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'companies' %}">Компании</a>
           </li>
         </ul>
-        <ul class="navbar-nav col-2 justify-content-end">
-          <li class="nav-item active">
-            <a href="{% url 'create_company'%}" class="nav-link font-weight-bold">Создать компанию</a>
-          </li>
-        </ul>
-        <ul class="navbar-nav col-2 justify-content-end">
-          <li class="nav-item active">
-            <a href="{% url 'create_vacancy'%}" class="nav-link font-weight-bold">Создать вакансию</a>
-          </li>
+        <ul class="navbar-nav justify-content-end">
+          {% if user.username %}
+            <!-- <a href="#" class="nav-link font-weight-bold">{{ user.username }}</a> -->
+            <div class="dropdown show">
+              <!-- <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ user.username }}
+              </button> -->
+              <a class="dropdown-header" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ user.username }}
+              </a>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Профиль</a>
+                <a class="dropdown-item" href="#">Резюме</a>
+                <a class="dropdown-item" href="#">Комания</a>
+                <a class="dropdown-item" href="{% url 'create_company'%}">Создать компанию</a>
+                <a class="dropdown-item" href="{% url 'create_vacancy'%}">Создать вакансию</a>
+                <a class="dropdown-item" href="/logout">Выйти</a>
+              </div>
+            </div>
+          {% else %}
+            <a href="/login" class="nav-link font-weight-bold">Вход</a>
+          {% endif %}
         </ul>
       </div>
     </nav>

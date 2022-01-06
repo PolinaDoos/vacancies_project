@@ -40,6 +40,14 @@ def vacancies(request):
     return render(request, 'vacancies.html', context)
 
 
+def companies(request):
+    context = {
+        'all_companies': Company.objects.all(),
+        'number_of_companies': len(Company.objects.all())
+    }
+    return render(request, 'companies.html', context)
+
+
 def vacancies_on_category(request, category_name):
     try:
         specialty = Specialty.objects.get(code=category_name)

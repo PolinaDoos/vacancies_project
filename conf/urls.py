@@ -31,6 +31,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', vacancies.main_view),
     path('vacancies', vacancies.vacancies, name='vacancies'),
+    path('companies', vacancies.companies, name='companies'),
     path('vacancies/cat/<str:category_name>', vacancies.vacancies_on_category, name='vacancies_on_category'),
     path('vacancies/companies/<int:company>', vacancies.company_card, name='company_card'),
     path('vacancies/<int:vacancy>', vacancies.vacancy, name='vacancy'),
