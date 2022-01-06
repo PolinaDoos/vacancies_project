@@ -5,37 +5,40 @@
     <h2 class="h2 font-weight-normal text-center mb-5">Создание вакансии от компании {{ company }}</h2>
     <form method="post" enctype="multipart/form-data" style="width: 50%; ">
         {% csrf_token %}
-        {{ form }}
-        <button type="submit" class="btn btn-primary mb-2">Создать карточку компании</button>
+        <!-- {{ form }} -->
 
+        <div class="form-group">
+        <label>Название вакансии</label>
+        <div style="color: crimson;">{{ form.title.errors }}
+            {{ form.title }}
+        </div>
 
-        <!-- <div class="form-group">
-            <label>Название вакансии</label>
-            <input type="text" placeholder="Полет шмеля" name="title" class="form-control">
+        <label>Специализация</label>
+        <div style="color: crimson;">{{ form.specialty.errors }}
+            {{ form.specialty }}
         </div>
-        <div class="form-group">
-            <label>Специализация</label>
-            <input type="text" placeholder="Бэкэнд" name="specialty" class="form-control">
+
+        <label>Необходимые навыки</label>
+        <div style="color: crimson;">{{ form.skills.errors }}
+            {{ form.skills }}
         </div>
-        <div class="form-group">
-            <label>Требования</label>
-            <textarea type="text" name="skills" placeholder="Python, Django, ..." class="form-control" rows="3"></textarea>
+
+        <label>Описание вакансии</label>
+        <div style="color: crimson;">{{ form.description.errors }}
+            {{ form.description }}
         </div>
-        <div class="form-group">
-            <label>Минимальная з\п</label>
-            <input type="text" placeholder="50000" name="salary_min" class="form-control">
+
+        <label>Зарплата от:</label>
+        <div style="color: crimson;">{{ form.salary_min.errors }}
+            {{ form.salary_min }}
         </div>
-        <div class="form-group">
-            <label>Максимальная з\п</label>
-            <input type="text" placeholder="300000" name="salary_max" class="form-control">
+
+        <label>Зарплата до:</label>
+        <div style="color: crimson;">{{ form.salary_max.errors }}
+            {{ form.salary_max }}
         </div>
-        <div class="form-group">
-            <label>Описание</label>
-            <textarea type="text" name="description" placeholder="Подробнее о вакансии" class="form-control" rows="3"></textarea>
-            <br>{{ form.errors }}
-        </div>
-        <button type="submit" class="btn btn-primary mb-2">Опубликовать вакансию</button> -->
-        
+        <br>
+        <button type="submit" class="btn btn-primary mb-2">Опубликовать вакансию</button>
 
     </form>
 </section>

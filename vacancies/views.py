@@ -72,7 +72,7 @@ def company_card(request, company):
 def vacancy(request, vacancy):
     try:
         vacancy_data = Vacancy.objects.get(id=vacancy)
-        skills = vacancy_data.skills.split(", ")
+        skills = vacancy_data.skills.split(",")
         context = {
             'vacancy_data': vacancy_data,
             'skills': skills,
@@ -96,13 +96,13 @@ def start_company(request):
 def create_company(request):
     form = CompanyForm()
     if request.method == "POST":
-        form= CompanyForm(request.POST)
-        messages.info(request, f'{request.user.username}, данные с формы получены')
-        print(request.user.username)
+        form= CompanyForm(request.POST, request.FILES)
         if form.is_valid():
             messages.info(request, 'форма валидна')
-            Company.objects.create(owner=request.user, **form.cleaned_data)
-            messages.success(request, 'успех')
+            company = form.save(commit=False)
+            company.owner = request.user
+            company.save()
+            messages.success(request, f'{request.user.username}, карточка компании создана')
             return redirect(main_view)
         else:
             messages.error(request, 'Ошибка в заполнении формы')
@@ -116,20 +116,27 @@ def create_company(request):
 @login_required
 def create_vacancy(request):
     form = VacancyForm()
-    company = Company.objects.get(owner=request.user)
-    published_at = datetime.today()
+    
     if request.method == "POST":
         form= VacancyForm(request.POST)
+        try:
+            company = Company.objects.get(owner=request.user)
+        except Company.DoesNotExist:
+            messages.error(request, 'Для публикации вакансии необходимо создать карточку компании')
+            return redirect(create_company)
+        published_at = datetime.today()
         if form.is_valid():
-            Vacancy.objects.create(company=company, published_at=published_at, **form.cleaned_data)
-            messages.success(request, 'успех')
+            vacancy = form.save(commit=False)
+            vacancy.company=company
+            vacancy.published_at=published_at
+            vacancy.save()
+            messages.success(request, 'Вакансия опубликована')
             return redirect(main_view)
         else:
             messages.error(request, 'Ошибка в заполнении формы')
         
     context = {
         'form': form,
-        'company': company,
     }
     return render(request, 'create_vacancy.html', context)
 
