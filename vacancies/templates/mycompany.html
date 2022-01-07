@@ -7,8 +7,10 @@
             <div class="col-6 ml-5">
                 <h2 class="h2 font-weight-normal text-center mb-5">Инфомрация о компании</h2>
                 {% include 'alert.html' %}
-                <form method="put" enctype="multipart/form-data" style="width: 50%; ">
+                <form method="post" enctype="multipart/form-data" style="width: 50%; ">
                     {% csrf_token %}
+
+                    {{ form }}
                     
                     <div class="form-group">
                         <label>Название компании</label>

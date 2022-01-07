@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.http.response import HttpResponseNotFound, HttpResponseServerError
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from vacancies.models import Application, Company, Specialty, Vacancy
 from django.db.models import Count
 from datetime import datetime
@@ -125,8 +125,22 @@ def create_company(request):
 
 @login_required
 def mycompany(request):
-    messages.info(request, 'а вот и алерт')
-    return render(request, 'mycompany.html')
+    form = get_object_or_404(Company, owner=request.user)
+    print(form)
+    if request.method == 'POST':
+        form = CompanyForm(request.POST, request.FILES, instance=form)
+        print(request.user.company)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Данные обновлены')
+            return redirect('mycompany')
+    else:
+        form = CompanyForm(instance=form)
+    context = {
+        'form': form,
+    }
+    return render(request, 'mycompany.html', context)
+
 
 
 @login_required
@@ -162,7 +176,7 @@ def create_vacancy(request):
             vacancy.published_at=published_at
             vacancy.save()
             messages.success(request, 'Вакансия опубликована')
-            return redirect(main_view)
+            return redirect('my_vacancies')
         else:
             messages.error(request, 'Ошибка в заполнении формы')
         
