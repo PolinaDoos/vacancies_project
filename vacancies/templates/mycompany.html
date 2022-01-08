@@ -10,9 +10,51 @@
                 <form method="post" enctype="multipart/form-data" style="width: 50%; ">
                     {% csrf_token %}
 
-                    {{ form }}
+                    <!-- {{ form }} -->
                     
-                    <div class="form-group">
+
+
+                    <table>
+                        <tr>
+                            <td class="form-group col">
+                                <label>Название компании</label>
+                                <span style="color: crimson;">{{ form.name.errors }}</span>
+                                {{ form.name }}
+                            </td>
+                            <td class="form-group col">
+                                <label>Расположение</label>
+                                <span style="color: crimson;">{{ form.location.errors }}</span>
+                                {{ form.location }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="form-group col">
+                                <label>Количество сотрудников</label>
+                                <span style="color: crimson;">{{ form.employee_count.errors }}</span>
+                                {{ form.employee_count }}
+                            </td>
+                            <td>
+                                <label>Логотип компании</label>
+                                <img src="{{ logo.url }}" width="130" height="80" alt=""><br>
+                                {{ form.logo }}
+                                <span style="color: crimson;">{{ form.logo.errors }}</span>
+                            </td>
+                        </tr>
+                    
+                        <tr class="form-group">
+                            <td>
+                                <label>Информация о компании</label>
+                                <span style="color: crimson;">{{ form.description.errors }}</span>
+                                {{ form.description }}
+                            </td>
+                        </tr>
+                    </table>
+
+
+
+
+
+                    <!-- <div class="form-group">
                         <label>Название компании</label>
                         <span style="color: crimson;">{{ form.name.errors }}</span>
                         <input type="text" placeholder="Полет шмеля" name="name" class="form-control">
@@ -41,7 +83,7 @@
                         <span style="color: crimson;">{{ form.description.errors }}</span>
                         <textarea type="text" name="description" placeholder="Расскажите подробнее о вашей компании" class="form-control" rows="3"></textarea>
                         
-                    </div>
+                    </div> -->
                     <button type="submit" class="btn btn-primary mb-2">Сохранить</button>
                 </form>
             </div>

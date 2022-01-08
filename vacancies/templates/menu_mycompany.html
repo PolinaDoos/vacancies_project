@@ -1,9 +1,12 @@
 <div class="col-4" >
-    <h2 class="h2 font-weight-normal text-center mb-5">Моя компания</h2>
-    <ul class="row justify-content-center mt-5">
-        <a class="btn btn-info btn-block" href="{% url 'mycompany' %}" role="button">Инфомрация о компании</a>
+    <div class="row justify-content-center">
+        <h2 class="h2 col-8 font-weight-normal text-center m-0 p-auto"col ml-5>Моя компания</h2>
+        <img class="col-4 pr-0" src="{{ logo.url }}" width="130" height="80" alt="">
+    </div>
+    <ul class="row justify-content-center pl-2">
+        <a class="btn btn-info btn-block " href="{% url 'mycompany' %}" role="button">Инфомрация о компании</a>
     </ul>
-    <ul class="row justify-content-center mt-2">
+    <ul class="row justify-content-center pl-2">
         <a class="btn btn-info btn-block" href="{% url 'my_vacancies' %}" role="button">Вакансии</a>
     </ul>
 </div>

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block container %}
+
+<section class="my-2 pt-3">
+    <h2 class="h2 font-weight-normal text-center mb-5">Редактирование вакансии от компании {{ user.company }}</h2>
+    <form method="post" enctype="multipart/form-data" style="width: 50%; ">
+        {% csrf_token %}
+        <!-- {{ form }} -->
+
+        <div class="form-group">
+        <label>Название вакансии</label>
+        <div style="color: crimson;">{{ form.title.errors }}
+            {{ form.title }}
+        </div>
+
+        <label>Специализация</label>
+        <div style="color: crimson;">{{ form.specialty.errors }}
+            {{ form.specialty }}
+        </div>
+
+        <label>Необходимые навыки</label>
+        <div style="color: crimson;">{{ form.skills.errors }}
+            {{ form.skills }}
+        </div>
+
+        <label>Описание вакансии</label>
+        <div style="color: crimson;">{{ form.description.errors }}
+            {{ form.description }}
+        </div>
+
+        <label>Зарплата от:</label>
+        <div style="color: crimson;">{{ form.salary_min.errors }}
+            {{ form.salary_min }}
+        </div>
+
+        <label>Зарплата до:</label>
+        <div style="color: crimson;">{{ form.salary_max.errors }}
+            {{ form.salary_max }}
+        </div>
+        <br>
+        <a class="btn btn-outline-info mb-2" href="{% url 'my_vacancies' %}" role="button">Вернуться без изменений</a>
+        <button type="submit" class="btn btn-primary mb-2">Сохранить изменения</button>
+
+    </form>
+    
+</section>
+
+{% endblock %}

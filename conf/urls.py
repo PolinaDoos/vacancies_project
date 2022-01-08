@@ -44,6 +44,7 @@ urlpatterns = [
     path('mycompany', vacancies.mycompany, name='mycompany'),
     path('mycompany/create_vacancy', vacancies.create_vacancy, name='create_vacancy'),
     path('mycompany/vacancies', vacancies.my_vacancies, name='my_vacancies'),
+    path('mycompany/edit_vacancy/<int:vacancy>', vacancies.edit_vacancy, name='edit_vacancy'),
 ]
 
 
