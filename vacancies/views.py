@@ -10,7 +10,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView
 from django.contrib.auth.views import LoginView
 
-from .forms import CompanyForm, VacancyForm
+from .forms import ApplicationForm, CompanyForm, VacancyForm
 
 
 def custom_handler404(request, exception):
@@ -80,6 +80,7 @@ def company_card(request, company):
 def vacancy(request, vacancy):
     try:
         vacancy_data = Vacancy.objects.get(id=vacancy)
+        print(vacancy_data.id)
         skills = vacancy_data.skills.split(",")
         context = {
             'vacancy_data': vacancy_data,
@@ -88,10 +89,6 @@ def vacancy(request, vacancy):
         return render(request, 'vacancy_card.html', context)
     except Vacancy.DoesNotExist:
         return redirect(main_view)
-
-
-def vacancy_send(request, vacancy):
-    pass
 
 
 @login_required
@@ -146,7 +143,7 @@ def mycompany(request):
 
 @login_required
 def my_vacancies(request):
-    # applications_count = Application.objects.filter(vacancy=...)count()
+
     logo = get_object_or_404(Company, owner=request.user).logo
     try:
         user_vacancy_list = Vacancy.objects.filter(company=request.user.company)
@@ -156,7 +153,7 @@ def my_vacancies(request):
         }
         return render(request, 'my_vacancies.html', context)
     except Vacancy.DoesNotExist:
-        return redirect(main_view)
+        return redirect(mycompany)
     
 
 
@@ -203,6 +200,26 @@ def edit_vacancy(request, vacancy):
     }
     return render(request, 'edit_vacancy.html', context)
 
+
+def send_application(request, vacancy):
+    if request.method == "POST":
+        form= ApplicationForm(request.POST)
+        if form.is_valid():
+            application = form.save(commit=False)
+            application.vacancy = Vacancy.objects.get(id=vacancy)
+            application.user = request.user
+            application.save()
+            messages.success(request, 'Отклик отправлен')
+            return redirect('vacancies')
+        else:
+            messages.error(request, 'Ошибка в заполнении формы')
+    else:
+        form = ApplicationForm()
+        
+    context = {
+        'form': form,
+    }
+    return render(request, 'vacancy', context)
 
 
 
