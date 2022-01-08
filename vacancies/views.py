@@ -126,7 +126,7 @@ def create_company(request):
 @login_required
 def mycompany(request):
     form = get_object_or_404(Company, owner=request.user)
-    print(form)
+    logo = form.logo
     if request.method == 'POST':
         form = CompanyForm(request.POST, request.FILES, instance=form)
         print(request.user.company)
@@ -138,6 +138,7 @@ def mycompany(request):
         form = CompanyForm(instance=form)
     context = {
         'form': form,
+        'logo': logo
     }
     return render(request, 'mycompany.html', context)
 
@@ -146,11 +147,12 @@ def mycompany(request):
 @login_required
 def my_vacancies(request):
     # applications_count = Application.objects.filter(vacancy=...)count()
-
+    logo = get_object_or_404(Company, owner=request.user).logo
     try:
         user_vacancy_list = Vacancy.objects.filter(company=request.user.company)
         context = {
             'user_vacancy_list': user_vacancy_list,
+            'logo': logo
         }
         return render(request, 'my_vacancies.html', context)
     except Vacancy.DoesNotExist:
@@ -160,8 +162,6 @@ def my_vacancies(request):
 
 @login_required
 def create_vacancy(request):
-    form = VacancyForm()
-    
     if request.method == "POST":
         form= VacancyForm(request.POST)
         try:
@@ -179,11 +179,31 @@ def create_vacancy(request):
             return redirect('my_vacancies')
         else:
             messages.error(request, 'Ошибка в заполнении формы')
+    else:
+        form = VacancyForm()
         
     context = {
         'form': form,
     }
     return render(request, 'create_vacancy.html', context)
+
+
+def edit_vacancy(request, vacancy):
+    form = get_object_or_404(Vacancy, id=vacancy)
+    if request.method == 'POST':
+        form = VacancyForm(request.POST, request.FILES, instance=form)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Данные вакансии обновлены')
+            return redirect('my_vacancies')
+    else:
+        form = VacancyForm(instance=form)
+    context = {
+        'form': form,
+    }
+    return render(request, 'edit_vacancy.html', context)
+
+
 
 
 class MySignupView(CreateView):
