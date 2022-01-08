@@ -1,10 +1,11 @@
 from django.contrib import messages
-from django.http.response import HttpResponseNotFound, HttpResponseServerError
+from django.http.response import HttpResponseNotFound, HttpResponseRedirect, HttpResponseServerError
 from django.shortcuts import get_object_or_404, redirect, render
 from vacancies.models import Application, Company, Specialty, Vacancy
 from django.db.models import Count
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView
@@ -80,11 +81,12 @@ def company_card(request, company):
 def vacancy(request, vacancy):
     try:
         vacancy_data = Vacancy.objects.get(id=vacancy)
-        print(vacancy_data.id)
         skills = vacancy_data.skills.split(",")
+        form = form= ApplicationForm(request.POST)
         context = {
             'vacancy_data': vacancy_data,
             'skills': skills,
+            'form': form,
         }
         return render(request, 'vacancy_card.html', context)
     except Vacancy.DoesNotExist:
@@ -126,7 +128,6 @@ def mycompany(request):
     logo = form.logo
     if request.method == 'POST':
         form = CompanyForm(request.POST, request.FILES, instance=form)
-        print(request.user.company)
         if form.is_valid():
             form.save()
             messages.success(request, 'Данные обновлены')
@@ -212,14 +213,17 @@ def send_application(request, vacancy):
             messages.success(request, 'Отклик отправлен')
             return redirect('vacancies')
         else:
+            # form = ApplicationForm(instance=form)
             messages.error(request, 'Ошибка в заполнении формы')
     else:
-        form = ApplicationForm()
+        form= ApplicationForm()
         
     context = {
         'form': form,
     }
-    return render(request, 'vacancy', context)
+    
+    return redirect(f'/vacancy/{vacancy}', context)
+
 
 
 
