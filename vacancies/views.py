@@ -112,8 +112,10 @@ def vacancy(request, vacancy_id):
 
 def send_application(request, vacancy_id):
     messages.success(request, 'Отклик отправлен')
+    sender = Application.objects.filter(user=request.user).last().written_username
     context = {
-        'vacancy_data': Vacancy.objects.get(id=vacancy_id)
+        'vacancy_data': Vacancy.objects.get(id=vacancy_id),
+        'sender': sender,
     }
     return render(request, 'send_application.html', context)
 
