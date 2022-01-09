@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.deletion import CASCADE, SET
 from django.db.models.fields import CharField, DateField, IntegerField, PositiveIntegerField, TextField
 from django.db.models.fields.related import ForeignKey, OneToOneField
+from phonenumber_field.modelfields import PhoneNumberField
 
 from conf.settings import MEDIA_COMPANY_IMAGE_DIR, MEDIA_SPECIALITY_IMAGE_DIR
 
@@ -47,10 +48,10 @@ class Specialty(models.Model):
 
 class Application(models.Model):
     written_username = CharField(max_length=200)
-    written_phone = IntegerField()
+    written_phone = PhoneNumberField(null=False, blank=False)
     written_cover_letter = TextField(blank=True)
     vacancy = ForeignKey('Vacancy', on_delete=CASCADE, related_name="applications")
-    user = ForeignKey('auth.User', on_delete=CASCADE, related_name="applications")
+    user = ForeignKey('auth.User', on_delete=CASCADE, related_name="applications", blank=True, null=True)
 
     def __str__(self):
         return f'{self.written_username} vacancy {self.vacancy}'
