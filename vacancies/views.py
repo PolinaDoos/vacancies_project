@@ -10,6 +10,7 @@ from django.urls import reverse
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView
 from django.contrib.auth.views import LoginView
+from django.contrib.auth.models import AnonymousUser 
 
 from .forms import ApplicationForm, CompanyForm, VacancyForm
 
@@ -77,21 +78,44 @@ def company_card(request, company):
     except Company.DoesNotExist or Vacancy.DoesNotExist:
         return redirect(main_view)
 
-
-def vacancy(request, vacancy):
+@login_required
+def vacancy(request, vacancy_id):
     try:
-        vacancy_data = Vacancy.objects.get(id=vacancy)
-        skills = vacancy_data.skills.split(",")
-        form = form= ApplicationForm(request.POST)
-        context = {
-            'vacancy_data': vacancy_data,
-            'skills': skills,
-            'form': form,
-        }
-        return render(request, 'vacancy_card.html', context)
+        vacancy_data = Vacancy.objects.get(id=vacancy_id)
     except Vacancy.DoesNotExist:
         return redirect(main_view)
+    skills = vacancy_data.skills.split(",")
+    form = ApplicationForm()
 
+    if request.method == "POST":
+        form = ApplicationForm(request.POST)
+        if form.is_valid():
+            application = form.save(commit=False)
+            application.vacancy = Vacancy.objects.get(id=vacancy_id)
+            print(request.user)
+            application.user = request.user
+
+            # application.user is None if request.user == AnonymousUser else application.user = request.user
+            # application.user = request.user if request.user else application.user is None
+            application.save()
+            return redirect ('send_application', vacancy_id)
+        else:
+            messages.error(request, 'Ошибка в заполнении формы')
+
+    context = {
+    'vacancy_data': vacancy_data,
+    'skills': skills,
+    'form': form,
+    }
+    return render(request, 'vacancy_card.html', context)
+    
+
+def send_application(request, vacancy_id):
+    messages.success(request, 'Отклик отправлен')
+    context = {
+        'vacancy_data': Vacancy.objects.get(id=vacancy_id)
+    }
+    return render(request, 'send_application.html', context)
 
 @login_required
 def start_company(request):
@@ -202,27 +226,27 @@ def edit_vacancy(request, vacancy):
     return render(request, 'edit_vacancy.html', context)
 
 
-def send_application(request, vacancy):
-    if request.method == "POST":
-        form= ApplicationForm(request.POST)
-        if form.is_valid():
-            application = form.save(commit=False)
-            application.vacancy = Vacancy.objects.get(id=vacancy)
-            application.user = request.user
-            application.save()
-            messages.success(request, 'Отклик отправлен')
-            return redirect('vacancies')
-        else:
-            # form = ApplicationForm(instance=form)
-            messages.error(request, 'Ошибка в заполнении формы')
-    else:
-        form= ApplicationForm()
+# def send_application(request, vacancy_id):
+#     if request.method == "POST":
+#         form= ApplicationForm(request.POST)
+#         if form.is_valid():
+#             application = form.save(commit=False)
+#             application.vacancy = Vacancy.objects.get(id=vacancy_id)
+#             application.user = request.user
+#             application.save()
+#             messages.success(request, 'Отклик отправлен')
+#             return redirect('vacancies')
+#         else:
+#             # form = ApplicationForm(instance=form)
+#             messages.error(request, 'Ошибка в заполнении формы')
+#     else:
+#         form= ApplicationForm()
         
-    context = {
-        'form': form,
-    }
-    
-    return redirect(f'/vacancy/{vacancy}', context)
+#     context = {
+#         'form': form,
+#     }
+#     print(form)
+#     return redirect(vacancy(request, vacancy=vacancy_id, form=form))
 
 
 

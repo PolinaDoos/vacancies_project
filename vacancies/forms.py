@@ -21,3 +21,8 @@ class ApplicationForm(ModelForm):
     class Meta:
         model = Application
         fields = ('written_username', 'written_phone', 'written_cover_letter')
+        labels = {
+            'written_username': "Ваше имя",
+            'written_phone': 'Ваш телефон',
+            'written_cover_letter': 'Сопроводительное письмо',
+        }
