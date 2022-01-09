@@ -1,19 +1,16 @@
 from django.contrib import messages
-from django.http.response import HttpResponseNotFound, HttpResponseRedirect, HttpResponseServerError
+from django.http.response import HttpResponseNotFound, HttpResponseServerError
 from django.shortcuts import get_object_or_404, redirect, render
 from vacancies.models import Application, Company, Specialty, Vacancy
 from django.db.models import Count
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse
-
-from django.contrib.auth.forms import UserCreationForm
-from django.views.generic import CreateView
-from django.contrib.auth.views import LoginView
-from django.contrib.auth.models import AnonymousUser 
 
 from .forms import ApplicationForm, CompanyForm, VacancyForm
 
+# для работы с запросами в shell: 
+# import django.contrib.auth.models as auth - auth.User.objects.all()
+# import vacancies.models as models -> models.Company.objects.all()
 
 def custom_handler404(request, exception):
     return HttpResponseNotFound('Ой, что то сломалось... Или ничего нет. Простите, извините!')
@@ -66,7 +63,6 @@ def vacancies_on_category(request, category_name):
 
 def company_card(request, company):
     try:
-        # if Company.objects.all().values_list('company_original_id') and company in Company.objects.all().values_list('company_original_id', flat=True):
         company_data = Company.objects.get(id=company)
         vacancies_data = Vacancy.objects.filter(company=company_data.id)
         context = {
@@ -77,6 +73,7 @@ def company_card(request, company):
         return render(request, 'company_card.html', context)
     except Company.DoesNotExist or Vacancy.DoesNotExist:
         return redirect(main_view)
+
 
 @login_required
 def vacancy(request, vacancy_id):
@@ -119,6 +116,7 @@ def send_application(request, vacancy_id):
     }
     return render(request, 'send_application.html', context)
 
+
 @login_required
 def start_company(request):
     return render(request, 'start_company.html')
@@ -144,9 +142,6 @@ def create_company(request):
     }
     return render(request, 'create_company.html', context)
 
-# для работы с запросами в shell: 
-# import django.contrib.auth.models as auth - auth.User.objects.all()
-# import vacancies.models as models -> models.Company.objects.all()
 
 @login_required
 def mycompany(request):
@@ -167,7 +162,6 @@ def mycompany(request):
     return render(request, 'mycompany.html', context)
 
 
-
 @login_required
 def my_vacancies(request):
 
@@ -182,7 +176,6 @@ def my_vacancies(request):
     except Vacancy.DoesNotExist:
         return redirect(mycompany)
     
-
 
 @login_required
 def create_vacancy(request):
@@ -226,39 +219,3 @@ def edit_vacancy(request, vacancy):
         'form': form,
     }
     return render(request, 'edit_vacancy.html', context)
-
-
-# def send_application(request, vacancy_id):
-#     if request.method == "POST":
-#         form= ApplicationForm(request.POST)
-#         if form.is_valid():
-#             application = form.save(commit=False)
-#             application.vacancy = Vacancy.objects.get(id=vacancy_id)
-#             application.user = request.user
-#             application.save()
-#             messages.success(request, 'Отклик отправлен')
-#             return redirect('vacancies')
-#         else:
-#             # form = ApplicationForm(instance=form)
-#             messages.error(request, 'Ошибка в заполнении формы')
-#     else:
-#         form= ApplicationForm()
-        
-#     context = {
-#         'form': form,
-#     }
-#     print(form)
-#     return redirect(vacancy(request, vacancy=vacancy_id, form=form))
-
-
-
-
-class MySignupView(CreateView):
-   form_class = UserCreationForm
-   success_url = 'login'
-   template_name = 'signup.html'
-
-
-class MyLoginView(LoginView):
-    redirect_authenticated_user = True
-    template_name = 'login.html'
