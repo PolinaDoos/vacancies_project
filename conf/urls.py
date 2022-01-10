@@ -29,6 +29,9 @@ handler404 = vacancies.custom_handler404
 handler500 = vacancies.custom_handler500
 
 urlpatterns = [
+    path('listview', vacancies.MainView.as_view() ),
+
+
     path('admin/', admin.site.urls),
     path('', vacancies.main_view),
     path('companies', vacancies.companies, name='companies'),

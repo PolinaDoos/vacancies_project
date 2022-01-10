@@ -1,10 +1,14 @@
+from typing import Any, Dict
 from django.contrib import messages
+from django.db.models.query import QuerySet
+from django.views.generic import ListView
 from django.http.response import HttpResponseNotFound, HttpResponseServerError
 from django.shortcuts import get_object_or_404, redirect, render
 from vacancies.models import Application, Company, Specialty, Vacancy
 from django.db.models import Count
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
+import random
 
 from .forms import ApplicationForm, CompanyForm, VacancyForm
 
@@ -26,9 +30,30 @@ def main_view(request):
     context = {
         'specialty_vacancies': specialty_vacancies,
         'company_vacancies': company_vacancies,
-        'user': request.user,
     }
     return render(request, 'index.html', context)
+
+class MainView(ListView):
+    # только модель, без фильтров
+    model = Company
+    
+    # по умолчанию рендеринг шаблона app/templates/model_list.html
+    template_name = "vacancies/index.html"
+
+    # по умолчанию на шаблон передается переменная object_list = model.objects.all()
+    context_object_name = 'company_vacancies' #- это данные Company.objects.all()
+
+    # переопределяет queryset из Company.objects.all() в любой другой
+    def get_queryset(self) -> QuerySet[Company]:
+        # например, в этот
+        queryset = Company.objects.annotate(vacancies_count=Count('companies'))[:8]
+        return queryset
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['specialty_vacancies'] = Specialty.objects.annotate(vacancies_count=Count('vacancies'))
+        return context
+    
 
 
 def vacancies(request):
