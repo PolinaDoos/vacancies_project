@@ -37,7 +37,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-# STATIC_ROOT = 'static'
+STATIC_ROOT = 'static'
 
 
 # Application definition

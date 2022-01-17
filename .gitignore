@@ -61,10 +61,6 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 
-# Flask stuff:
-instance/
-.webassets-cache
-
 # Scrapy stuff:
 .scrapy
 
@@ -74,9 +70,6 @@ docs/_build/
 # PyBuilder
 .pybuilder/
 target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
 
 # IPython
 profile_default/
@@ -137,6 +130,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#static files
+
+/static/
 
 # pytype static type analyzer
 .pytype/
