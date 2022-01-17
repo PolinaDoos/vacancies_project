@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth.decorators import login_required
 from django.urls import path
 from django.urls.conf import include
 import vacancies.views as vacancies
@@ -29,6 +30,9 @@ handler404 = vacancies.custom_handler404
 handler500 = vacancies.custom_handler500
 
 urlpatterns = [
+    path('listview', vacancies.MainView.as_view()),
+    path('vacancies/<int:vacancy_id>/applications', login_required(vacancies.ApplicationList.as_view()), name='applications'),
+
     path('admin/', admin.site.urls),
     path('', vacancies.main_view),
     path('companies', vacancies.companies, name='companies'),

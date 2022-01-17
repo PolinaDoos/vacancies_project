@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block container %}
+<main>
+    <section class="my-2 pt-3">
+        <div class="row">
+            {% include 'menu_mycompany.html' %}
+            <div class="col-6 ml-5">
+                <h2 class="h2 font-weight-normal text-center mb-5">Отклики, полученные по вакансии {{ vacancy_id }}</h2>
+                
+                {% for application in applications %}
+                    <div class="card mb-4">
+                        <div class="card-body px-4">
+                            <div class="row">
+                                    <div class="col-md-8 col-lg-9">
+                                        <h5 class="pb-2">{{ application.written_username }}</h5>
+                                        <h5 class="pb-2">{{ application.written_phone }}</h5>
+                                        <div class="pb-2">{{ application.written_cover_letter }}</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
