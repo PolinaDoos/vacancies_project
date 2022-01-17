@@ -45,15 +45,15 @@ class MainView(ListView):
 
     # переопределяет queryset из Company.objects.all() в любой другой
     def get_queryset(self) -> QuerySet[Company]:
-        # например, в этот
-        queryset = Company.objects.annotate(vacancies_count=Count('companies'))[:8]
+        # например, в этот. order_by('?')[:8] = 8 случайных
+        queryset = Company.objects.annotate(vacancies_count=Count('companies')).order_by('?')[:8]
         return queryset
+
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context['specialty_vacancies'] = Specialty.objects.annotate(vacancies_count=Count('vacancies'))
         return context
-    
 
 
 def vacancies(request):
@@ -230,6 +230,7 @@ def create_vacancy(request):
     return render(request, 'create_vacancy.html', context)
 
 
+@login_required
 def edit_vacancy(request, vacancy):
     form = get_object_or_404(Vacancy, id=vacancy)
     if request.method == 'POST':
@@ -244,3 +245,25 @@ def edit_vacancy(request, vacancy):
         'form': form,
     }
     return render(request, 'edit_vacancy.html', context)
+
+
+class ApplicationList(ListView):
+    model = Application
+    template_name = "vacancies/applications.html"
+
+    # по умолчанию на шаблон передается переменная object_list = model.objects.all()
+    context_object_name = 'applications'
+
+    def get_queryset(self):                                      
+        vacancy = self.kwargs.get('vacancy_id', None)             
+        if vacancy is not None:                                 
+            return Application.objects.filter(vacancy=vacancy) 
+        return Application.objects.all()   
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        vacancy = self.kwargs.get('vacancy_id', None)
+        context['vacancy_id'] = Vacancy.objects.get(id=vacancy)
+        
+        # context['logo'] = Company.objects.get(vacancy=vacancy_id).logo
+        return context
